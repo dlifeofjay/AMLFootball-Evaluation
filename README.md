@@ -19,11 +19,18 @@ The initial attempt involved predicting win, lose, or draw (W/L/D).
 Because this three-way prediction fell below a reliable accuracy threshold for real-world performance, the platform pivoted away from outright match prediction toward predicting goal output and intervals.
 
 ### 2. Regression Metrics
-To measure how accurately the model predicts goals, two standard regression metrics were computed for home and away goals:
-- **Mean Absolute Error (MAE):** Represents the typical error per match (average goals off). The MAE is approximately 0.96-0.99 for La Liga and 0.86-0.88 for Serie A.
-- **Root Mean Squared Error (RMSE):** Gives more weight to larger mistakes. The RMSE ranges between 1.07 and 1.33.
+To evaluate how accurately the model predicts goals, we used two standard regression metrics:
+- **Mean Absolute Error (MAE):** Measures the average absolute difference between predicted and actual goals (average margin of error per match).
+- **Root Mean Squared Error (RMSE):** Penalizes large errors more heavily, providing insight into the magnitude of prediction misses.
 
-These metrics indicate that if the model predicts 2 goals for a team, the actual result is most often within a margin of 1 (i.e., 1 or 3 goals).
+| League | Metric Type | Home Goals | Away Goals |
+| :--- | :--- | :--- | :--- |
+| **La Liga** | MAE | 0.96 | 0.99 |
+| | RMSE | 1.20 | 1.33 |
+| **Serie A** | MAE | 0.86 | 0.88 |
+| | RMSE | 1.07 | 1.11 |
+
+These results indicate that if the model predicts 2 goals for a team, the actual result is typically expected to be 1 or 3 goals.
 
 ### 3. Acceptable Prediction Rate
 Football is filled with unpredictable events. To measure systemic accuracy, we evaluated how consistently the model predicted actual goals within a margin of **+1 and -1 goals**.
@@ -32,40 +39,37 @@ Football is filled with unpredictable events. To measure systemic accuracy, we e
 
 ---
 
-## Matches Segmentation
-
-Because teams exhibit different levels of reliability and consistency, matches are segmented based on the total combined prediction error recorded for the participating teams:
-
-*   **A. Excellent Matches**  
-    The most predictable tier. The model has identified highly consistent patterns for both teams. A match is classified as *Excellent* when the combined count of unique prediction errors across both teams is **3 or fewer**.
-*   **B. Medium Matches**  
-    Somewhat predictable but less consistent. They carry a wider error distribution and goal interval. The combined count of unique prediction errors falls between **4 and 5**.
-*   **C. Low Matches**  
-    Teams with highly unpredictable scoring patterns and diverse prediction errors. The system intentionally gives these games wide goal intervals (e.g., 0–7 or 0–9). The combined error count is **6 or above**.
-
----
-
 ## App Features & Guide
 
 ### Match Summary
-The platform offers a short "most probable" summary for the game:
-1.  **AI Analyses:** Recommends the best and safest outcome based on the percentage likelihood of the most probable scenario.
-2.  **Goals Prediction Summary:** Surfaces the single most likely option across total over/under goals, total goals interval, and individual goal intervals.
+This section contains a short most probable summary for the entire game:
+1.  **AI Analyses:** The AI reviews all predictions and recommends the best and safest outcome based on the percentage likelihood of the most probable scenario.
+2.  **Goals Prediction Summary:** Surfaces the single most likely option covering total over/under goals, the total goals interval, and the individual goal interval for each team.
 
 ### Full AI Forecast
-A breakdown of all probabilities assigned to different match scenarios, including over/under margins and exact goal intervals. The **total goal interval** is the most reliable indicator, while individual team intervals can be explored at the team-insight level.
+A full breakdown of the probabilities assigned to different match scenarios. While it covers several metrics, we recommend focusing on the **total goal interval** as it tends to be the more reliable indicator. Individual team intervals are best explored via the Team Insight section.
 
-*Example:* Analysis might state an 86% probability that teams score 3 to 4 goals combined, but a 99.9% probability they score from 2 to 5 goals. The forecast helps define the "safe zones" of statistical likelihood.
+#### Analysis Breakdown Example:
+Using the system's probability outputs, the data can be interpreted as follows:
+*   **Over/Under Section:** "There is a 99.9% probability that the match will have over 1 goal and over 2 goals. However, there is only a 24% chance it will *not* produce 4 or more goals, meaning there is a 76% chance the total goals will be 4 and above."
+*   **Total Goals Interval:** "There is a 62% chance the match will have exactly 4 goals, an 86% chance of 3 to 4 goals, and a 99.9% chance the result falls within 3 to 5 goals."
 
 ---
 
 ## App Limitations & Risks
 
-The model's reliability drops significantly during **unexpected in-game events**, such as:
+The model's reliability drops significantly during **unexpected in-game events**, which fall outside the patterns the model was trained to recognize:
 - Early red cards
 - Unusual weather conditions
-- Out-of-the-ordinary goal outbursts (especially from the home team)
+- Unusual goal outbursts (particularly from the home team)
 
-Even a match classified as *Excellent* is not immune to unpredictable occurrences. The segmentation strictly reflects historical pattern reliability—not a guarantee of outcome. 
+Even a match showing highly consistent historical patterns is not immune to these unpredictable occurrences.
 
-**Conclusion:** AML Football proves the concept that AI can offer a measurable, reliable edge to understanding football matches pre-kickoff. The unpredictability of football isn't a problem to be solved; it's what makes the game beautiful. This platform simply helps you understand it better.
+---
+
+## Conclusion
+AML Football was built on a simple but ambitious idea: that mathematics and machine learning can give football fans and analysts a clear expectation of what to see before a match kicks off.
+
+Version one proves the concept with an Acceptable Prediction Rate of approximately 80% for La Liga and 87% for Serie A. For this initial phase, performance is judged primarily on the accuracy of the LLM recommendations in matches where teams show consistent and predictable patterns.
+
+The unpredictability of football is not a problem to be solved—it's what makes the sport worth watching. AML Football doesn't claim to remove that uncertainty; it simply helps you understand it better.
