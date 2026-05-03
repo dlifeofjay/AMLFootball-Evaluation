@@ -13,8 +13,8 @@ Extensive testing was carried out to evaluate the reliability of the AML Footbal
 
 ### 1. Initial Accuracy for Three-Way Outcome
 The initial attempt involved predicting win, lose, or draw (W/L/D). 
-- **La Liga Model:** 42% accuracy
-- **Serie A Model:** 47% accuracy
+- **La Liga Model:** 44% accuracy
+- **Serie A Model:** 49% accuracy
 
 Because this three-way prediction fell below a reliable accuracy threshold for real-world performance, the platform pivoted away from outright match prediction toward predicting goal output and intervals.
 
@@ -25,17 +25,24 @@ To evaluate how accurately the model predicts goals, we used two standard regres
 
 | League | Metric Type | Home Goals | Away Goals |
 | :--- | :--- | :--- | :--- |
-| **La Liga** | MAE | 0.96 | 0.99 |
-| | RMSE | 1.20 | 1.33 |
-| **Serie A** | MAE | 0.86 | 0.88 |
-| | RMSE | 1.07 | 1.11 |
+| **La Liga** | MAE | 0.90 | 0.93 |
+| | RMSE | 1.14 | 1.21 |
+| **Serie A** | MAE | 0.90 | 0.91 |
+| | RMSE | 1.10 | 1.12 |
 
 These results indicate that if the model predicts 2 goals for a team, the actual result is typically expected to be 1 or 3 goals.
 
 ### 3. Acceptable Prediction Rate
 Football is filled with unpredictable events. To measure systemic accuracy, we evaluated how consistently the model predicted actual goals within a margin of **+1 and -1 goals**.
-- **La Liga 0, +1 & -1 Error Accuracy:** ~80%
-- **Serie A 0, +1 & -1 Error Accuracy:** ~87%
+- **La Liga Home Goals 0, +1 & -1 Error Accuracy:** ~83%
+- **La Liga Away Goals 0, +1 & -1 Error Accuracy:** ~79%
+- **Serie A Home Goals 0, +1 & -1 Error Accuracy:** ~84%
+- **Serie A Away Goals 0, +1 & -1 Error Accuracy:** ~83%
+
+### 4. Total Match Error
+To evaluate overall match-level accuracy, we measured the combined absolute error across both home and away goal predictions per match. This metric shows how often the model's total goal prediction lands within an acceptable range of the actual outcome.
+- **La Liga:** 92.9% of matches fall within a combined error of 3 goals or less
+- **Serie A:** 92.5% of matches fall within a combined error of 3 goals or less
 
 ---
 
@@ -70,6 +77,6 @@ Even a match showing highly consistent historical patterns is not immune to thes
 ## Conclusion
 AML Football was built on a simple but ambitious idea: that mathematics and machine learning can give football fans and analysts a clear expectation of what to see before a match kicks off.
 
-Version one proves the concept with an Acceptable Prediction Rate of approximately 80% for La Liga and 87% for Serie A. For this initial phase, performance is judged primarily on the accuracy of the LLM recommendations in matches where teams show consistent and predictable patterns.
+Version one proves the concept with an Acceptable Prediction Rate averaging approximately 81% for La Liga and 83% for Serie A, with over 92% of matches in both leagues falling within a total combined error of 3 goals or less. For this initial phase, performance is judged primarily on the accuracy of the LLM recommendations in matches where teams show consistent and predictable patterns.
 
 The unpredictability of football is not a problem to be solved—it's what makes the sport worth watching. AML Football doesn't claim to remove that uncertainty; it simply helps you understand it better.
